@@ -1,0 +1,162 @@
+﻿@page
+@model CentralValleyBikes.Web.Areas.Customers.IndexModel
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="pb-3">
+    <h2>Customers</h2>
+</div>
+
+<div class="pb-4">
+    <div style="display:inline-block">
+        <a asp-page="Create" class="btn btn-sm btn-primary">Add New</a>
+    </div>
+    <div class="float-end">
+        <form id="filterForm" asp-page="./Index" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Find By:
+                    <select id="FilterType" name="FilterType" asp-for="FilterType" class="form-select" style="width:200px;display:inline-flex">
+                        <option value=""></option>
+                        <option value="firstName">First Name</option>
+                        <option value="lastName">Last Name</option>
+                        <option value="phone">Phone</option>
+                        <option value="city">City</option>
+                        <option value="state">State</option>
+                    </select>
+                    <input type="text" id="SearchString" name="SearchString" value="@Model.CurrentFilter" />
+                    <input type="submit" value="Search" class="btn btn-sm btn-primary" />
+                    <input type="button" value="Clear" class="btn btn-sm btn-primary" onclick="clearForm();" />
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortColumn="FirstName" asp-route-sortOrder="@Model.SortDirection" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customers[0].FirstName)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortColumn="LastName" asp-route-sortOrder="@Model.SortDirection" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customers[0].LastName)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customers[0].Street)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortColumn="City" asp-route-sortOrder="@Model.SortDirection" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customers[0].City)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortColumn="State" asp-route-sortOrder="@Model.SortDirection" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customers[0].State)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortColumn="ZipCode" asp-route-sortOrder="@Model.SortDirection" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customers[0].ZipCode)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Customers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    <div class="item-edit">
+                        <a asp-page="./Edit" asp-route-id="@item.CustomerId"><i class="bi bi-pencil-fill"></i>&nbsp;Edit</a>
+                    </div>
+                    <div class="item-delete">
+                        <a asp-page="./Delete" asp-route-id="@item.CustomerId"><i class="bi bi-trash3-fill"></i>&nbsp;Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.PaginationResult.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginationResult.HasNextPage ? "disabled" : "";
+}
+
+<p>Page @Model.PaginationResult.CurrentPage of @Model.PaginationResult.TotalPages</p>
+
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.SortDirection"
+   asp-route-pageNumber="@(Model.PaginationResult.CurrentPage - 1)"
+   asp-route-filterType="@Model.FilterType"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-sm btn-primary @prevDisabled">
+    <<
+</a>
+
+@for (int i = @Model.PaginationResult.CurrentPage; i < @Model.PaginationResult.CurrentPage + 5; i++)
+{
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.SortDirection"
+       asp-route-pageNumber="@i"
+       asp-route-filterType="@Model.FilterType"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-sm btn-primary">
+        @i
+    </a>
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.SortDirection"
+   asp-route-pageNumber="@(Model.PaginationResult.CurrentPage + 1)"
+   asp-route-filterType="@Model.FilterType"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-sm btn-primary @nextDisabled">
+    >>
+</a>
+
+<script>
+    function clearForm() {
+        $('#SearchString').val('');
+        $('#FilterType').val('');
+        $('#filterForm').submit();
+    }
+</script>

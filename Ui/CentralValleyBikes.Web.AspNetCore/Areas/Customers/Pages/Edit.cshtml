@@ -1,0 +1,71 @@
+﻿@page
+@model CentralValleyBikes.Web.Areas.Customers.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2 class="pb-3">Edit Customer</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Customer.CustomerId" />
+            <div class="form-group">
+                <label asp-for="Customer.FirstName" class="control-label"></label>
+                <input asp-for="Customer.FirstName" class="form-control" />
+                <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.LastName" class="control-label"></label>
+                <input asp-for="Customer.LastName" class="form-control" />
+                <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.Phone" class="control-label"></label>
+                <input asp-for="Customer.Phone" class="form-control" />
+                <span asp-validation-for="Customer.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.Email" class="control-label"></label>
+                <input asp-for="Customer.Email" class="form-control" />
+                <span asp-validation-for="Customer.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.Street" class="control-label"></label>
+                <input asp-for="Customer.Street" class="form-control" />
+                <span asp-validation-for="Customer.Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.City" class="control-label"></label>
+                <input asp-for="Customer.City" class="form-control" />
+                <span asp-validation-for="Customer.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.State" class="control-label"></label>
+                <input asp-for="Customer.State" class="form-control" />
+                <span asp-validation-for="Customer.State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.ZipCode" class="control-label"></label>
+                <input asp-for="Customer.ZipCode" class="form-control" />
+                <span asp-validation-for="Customer.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-3">
+                <input type="button" value="Back" class="btn btn-sm btn-primary" style="width:80px" onclick="goBack();" />
+                <input type="submit" value="Save" class="btn btn-sm btn-primary" style="width:80px" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function goBack() {
+        location.href = './Index'
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
